@@ -32,6 +32,7 @@
                         <th class="px-4 py-2">Title</th>
                         <th class="px-4 py-2">Image</th>
                         <th class="px-4 py-2">Body</th>
+                        <th class="px-4 py-2">Website</th>                       
                         <th class="px-4 py-2">Action</th>
                     </tr>
                 </thead>
@@ -46,6 +47,7 @@
                                 @endif
                             </td>
                             <td class="border px-4 py-2">{{ $post->body }}</td>
+                            <td class="border px-4 py-2">{{ $post->link }}</td>
                             <td class="border px-4 py-2">
                             <button wire:click="edit({{ $post->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
                                 <button wire:click="delete({{ $post->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AnimeLib - Your Anime Collection</title>
+    <title>R911</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
     <style>
@@ -263,11 +263,13 @@
             <div id="anime-grid" class="anime-grid">
                 @foreach($posts as $post)
                     <div class="anime-card" data-category="{{ $post->type }}">
-                        @if ($post->image)
-                            <img src="{{ asset('storage/' . $post->image) }}" alt="Anime Cover" class="anime-cover">
-                        @else
-                            <img src="/api/placeholder/200/280" alt="Anime Cover" class="anime-cover">
-                        @endif
+                        <a href="{{ $post->link }}" target="_blank" rel="noopener noreferrer">
+                            @if ($post->image)
+                                <img src="{{ asset('storage/' . $post->image) }}" alt="Anime Cover" class="anime-cover">
+                            @else
+                                <img src="/api/placeholder/200/280" alt="Anime Cover" class="anime-cover">
+                            @endif
+                        </a>
                         <div class="anime-info">
                             <div class="anime-title">{{ $post->title }}</div>
                             <div class="anime-meta">
@@ -278,7 +280,9 @@
                     </div>
                 @endforeach
             </div>
-    </div>
+        </div>
+        
+        
 
     <!-- Footer -->
     {{-- <footer class="footer">
