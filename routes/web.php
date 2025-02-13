@@ -1,14 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Livewire\Posts;
 use App\Models\Post;
-   
+use App\Livewire\Twit;
+use App\Livewire\Posts;
+use App\Livewire\Counter;
+use Illuminate\Support\Facades\Route;
+
 Route::get('posts', Posts::class)->name('posts')->middleware('auth');
+
 Route::get('/', function () {
     $posts = Post::all(); // Ambil semua data dari tabel posts
     return view('welcome', compact('posts'));
-})->name('welcome');
+})->name('welcome');;
 
 
 Route::middleware([
@@ -20,3 +23,5 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+Route::get('counter', Counter::class)->name('counter')->middleware('auth');
+Route::get('twit', Twit::class)->name('twit')->middleware('auth');

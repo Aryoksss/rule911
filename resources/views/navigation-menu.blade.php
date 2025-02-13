@@ -18,6 +18,12 @@
                     <x-nav-link href="{{ route('posts') }}" :active="request()->routeIs('posts')">
                         {{ __('Posts') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('counter') }}" :active="request()->routeIs('counter')">
+                        {{ __('Counter') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('twit') }}" :active="request()->routeIs('twit')">
+                        {{ __('Twit') }}
+                    </x-nav-link>
                 </div>
             </div>
 

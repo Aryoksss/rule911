@@ -39,14 +39,14 @@
                 <tbody>
                     @foreach($posts as $post)
                         <tr>
-                            <td class="border px-4 py-2">{{ $loop->iteration }}</td>
+                            <td class="border px-4 py-2">{{ $posts->count() - $loop->index }}</td>
                             <td class="border px-4 py-2">{{ $post->title }}</td>
                             <td class="border px-4 py-2">
                                 @if ($post->image)
                                     <img src="{{ asset('storage/' . $post->image) }}" class="w-40 h-40 object-cover">
                                 @endif
                             </td>
-                            <td class="border px-4 py-2">{{ $post->body }}</td>
+                            <td class="border px-4 py-2">{{ $post->body }} <> {{ $post->type }}</td>
                             <td class="border px-4 py-2">{{ $post->link }}</td>
                             <td class="border px-4 py-2">
                             <button wire:click="edit({{ $post->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
@@ -56,6 +56,7 @@
                     @endforeach
                 </tbody>
             </table>
+            {{ $posts->links() }}
         </div>
     </div>
 </div>

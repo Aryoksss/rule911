@@ -273,7 +273,7 @@
                         <div class="anime-info">
                             <div class="anime-title">{{ $post->title }}</div>
                             <div class="anime-meta">
-                                <span>Rating: {{ $post->body }}</span>
+                                <span>Desc: {{ $post->body }}</span>
                                 <span>{{ $post->type }}</span>
                             </div>
                         </div>

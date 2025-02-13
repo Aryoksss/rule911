@@ -2,9 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Models\Post;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Models\Post;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class Posts extends Component
@@ -17,7 +18,7 @@ class Posts extends Component
     public function render()
     {
         return view('livewire.posts', [
-            'posts' => Post::latest()->get()
+            'posts' => Post::latest()->paginate(5)
         ]);
     }
 
@@ -44,7 +45,7 @@ class Posts extends Component
 
     public function store()
     {
-        \Log::info('Data diterima:', [
+        Log::info('Data diterima:', [
             'title' => $this->title,
             'body' => $this->body,
             'image' => $this->image,
