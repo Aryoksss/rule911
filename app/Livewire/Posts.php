@@ -6,7 +6,6 @@ use App\Models\Post;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class Posts extends Component
 {
@@ -56,7 +55,7 @@ class Posts extends Component
         $this->validate([
             'title' => 'required|string|max:255',
             'body' => 'required|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:10240', // 10MB Max
             'type' => 'required|string|max:50',
             'link' => 'required|url|max:255'
         ]);
@@ -64,10 +63,25 @@ class Posts extends Component
         $imagePath = $this->post_id ? Post::find($this->post_id)->image : null;
 
         if ($this->image) {
-            if ($imagePath) {
-                Storage::disk('public')->delete($imagePath);
+            // Delete old image if exists
+            if ($imagePath && file_exists(public_path('storage/posts/' . basename($imagePath)))) {
+                unlink(public_path('storage/posts/' . basename($imagePath)));
             }
-            $imagePath = $this->image->store('posts', 'public');
+            
+            // Create posts directory if it doesn't exist
+            $uploadPath = public_path('storage/posts');
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+
+            // Generate unique filename
+            $filename = time() . '_' . $this->image->getClientOriginalName();
+            
+            // Move uploaded file directly to public/storage/posts
+            $this->image->move(public_path('storage/posts'), $filename);
+            
+            // Update image path
+            $imagePath = 'storage/posts/' . $filename;
         }
 
         Post::updateOrCreate(['id' => $this->post_id], [
@@ -84,25 +98,24 @@ class Posts extends Component
         $this->resetInputFields();
     }
 
-
     public function edit($id)
     {
-        $post = Post::findOrFail($id); // ✅ Pastikan post ditemukan
+        $post = Post::findOrFail($id);
         
         $this->post_id = $post->id;
         $this->title = $post->title;
         $this->body = $post->body;
         $this->type = $post->type;
-        $this->link = $post->link; // ✅ Ambil link juga
+        $this->link = $post->link;
 
         $this->openModal();
     }
 
     public function delete($id)
     {
-        $post = Post::findOrFail($id); // ✅ Pastikan post ditemukan
-        if ($post->image) {
-            Storage::disk('public')->delete($post->image);
+        $post = Post::findOrFail($id);
+        if ($post->image && file_exists(public_path('storage/posts/' . basename($post->image)))) {
+            unlink(public_path('storage/posts/' . basename($post->image)));
         }
         $post->delete();
         session()->flash('message', 'Post deleted successfully.');
