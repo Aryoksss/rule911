@@ -67,8 +67,8 @@ class Posts extends Component
             if ($imagePath) {
                 Storage::disk('public')->delete($imagePath);
             }
-            $imagePath = $this->image->store('posts', 'public');
-        }
+            $imagePath = $this->image->store('posts', 'public'); // ✅ Simpan di storage/app/public/posts
+        }        
 
         Post::updateOrCreate(['id' => $this->post_id], [
             'title' => $this->title,
@@ -84,25 +84,24 @@ class Posts extends Component
         $this->resetInputFields();
     }
 
-
     public function edit($id)
     {
-        $post = Post::findOrFail($id); // ✅ Pastikan post ditemukan
-        
+        $post = Post::findOrFail($id);
+
         $this->post_id = $post->id;
         $this->title = $post->title;
         $this->body = $post->body;
         $this->type = $post->type;
-        $this->link = $post->link; // ✅ Ambil link juga
+        $this->link = $post->link;
 
         $this->openModal();
     }
 
     public function delete($id)
     {
-        $post = Post::findOrFail($id); // ✅ Pastikan post ditemukan
+        $post = Post::findOrFail($id);
         if ($post->image) {
-            Storage::disk('public')->delete($post->image);
+            Storage::delete($post->image);
         }
         $post->delete();
         session()->flash('message', 'Post deleted successfully.');
