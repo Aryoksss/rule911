@@ -50,7 +50,7 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 - **[OP.GG](https://op.gg)**
 
 ## Contributing
-[![Contributors](https://contrib.rocks/image?repo=aryoksss/rule911&max=10)](https://github.com/dhaniil/sijaantigedor/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=aryoksss/rule911&max=10)](https://github.com/aryoksss/rule911/graphs/contributors)
 
 Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
