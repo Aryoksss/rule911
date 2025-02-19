@@ -62,8 +62,13 @@ class Posts extends Component
             'link' => 'required|url|max:255'
         ]);
 
-        $this->imagePath = $this->image->store('storage/posts', 'public');
+        // Initialize $this->imagePath as null
+        $this->imagePath = null;
 
+        // Only process the image if one was uploaded
+        if ($this->image) {
+            $this->imagePath = $this->image->store('posts', 'public');
+        }
 
         Post::updateOrCreate(['id' => $this->post_id], [
             'title' => $this->title,
@@ -74,7 +79,6 @@ class Posts extends Component
         ]);
 
         session()->flash('message', $this->post_id ? 'Post updated successfully.' : 'Post created successfully.');
-
         $this->closeModal();
         $this->resetInputFields();
     }
