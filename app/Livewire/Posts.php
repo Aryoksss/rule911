@@ -12,11 +12,12 @@ class Posts extends Component
 {
     use WithFileUploads;
 
-    public $title, $body, $image, $post_id, $type, $link;
+    public $title, $body, $image, $post_id, $type, $link, $imagePath;
     public $isOpen = false;
 
     public function render()
     {
+
         return view('livewire.posts', [
             'posts' => Post::latest()->paginate(5)
         ]);
@@ -61,19 +62,13 @@ class Posts extends Component
             'link' => 'required|url|max:255'
         ]);
 
-        $imagePath = $this->post_id ? Post::find($this->post_id)->image : null;
+        $this->imagePath = $this->image->store('storage/posts', 'public');
 
-        if ($this->image) {
-            if ($imagePath) {
-                Storage::disk('public')->delete($imagePath);
-            }
-            $imagePath = $this->image->store('posts', 'public'); // ✅ Simpan di storage/app/public/posts
-        }        
 
         Post::updateOrCreate(['id' => $this->post_id], [
             'title' => $this->title,
             'body' => $this->body,
-            'image' => $imagePath,
+            'image' => $this->imagePath,
             'type' => $this->type,
             'link' => $this->link
         ]);
